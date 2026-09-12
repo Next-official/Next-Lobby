@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next Lobby</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #008080;
+            background-image: radial-gradient(#005d5d 1px, transparent 0);
+            background-size: 8px 8px;
+            font-family: "Times New Roman", Times, serif;
+            color: #000000;
+            padding: clamp(8px, 2vw, 20px);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #wrapper {
+            width: 100%;
+            max-width: 1200px;
+            background-color: #C0C0C0;
+            border-top: 3px solid #FFFFFF;
+            border-left: 3px solid #FFFFFF;
+            border-right: 3px solid #000000;
+            border-bottom: 3px solid #000000;
+            box-shadow: 6px 6px 0px #000000;
+            padding: clamp(8px, 2.5vw, 16px);
+        }
+
+        .header-box {
+            background-color: #000080;
+            color: #FFFFFF;
+            padding: 4px 8px;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #000000;
+            border-left: 2px solid #000000;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+
+        .header-title {
+            font-size: clamp(11px, 2vw, 14px);
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .win-buttons {
+            display: flex;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+
+        .win-buttons span {
+            display: inline-block;
+            width: 16px;
+            height: 14px;
+            background-color: #C0C0C0;
+            color: #000000;
+            text-align: center;
+            line-height: 10px;
+            font-size: 10px;
+            border-top: 2px solid #FFFFFF;
+            border-left: 2px solid #FFFFFF;
+            border-right: 2px solid #000000;
+            border-bottom: 2px solid #000000;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        marquee {
+            background-color: #FFFF00;
+            border-top: 2px solid #000000;
+            border-left: 2px solid #000000;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            color: #FF0000;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-size: clamp(11px, 1.8vw, 13px);
+            padding: 4px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            color: #000080;
+            margin: 8px 0;
+            text-transform: uppercase;
+            text-shadow: 2px 2px #FFFFFF;
+            letter-spacing: 1px;
+            font-size: clamp(20px, 4vw, 32px);
+        }
+
+        hr.divider {
+            border: none;
+            border-top: 2px solid #808080;
+            border-bottom: 2px solid #FFFFFF;
+            margin: 12px 0 20px 0;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: clamp(10px, 2vw, 18px);
+        }
+
+        .card {
+            background-color: #FFFFFF;
+            border-top: 3px solid #FFFFFF;
+            border-left: 3px solid #FFFFFF;
+            border-right: 3px solid #404040;
+            border-bottom: 3px solid #404040;
+            box-shadow: 3px 3px 0px #000000;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 0;
+        }
+
+        .card-header {
+            background-color: #000080;
+            color: #FFFFFF;
+            font-family: "Courier New", Courier, monospace;
+            font-size: clamp(10px, 1.5vw, 12px);
+            font-weight: bold;
+            padding: 4px 6px;
+            margin: -10px -10px 10px -10px;
+            border-bottom: 2px solid #000000;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-title {
+            font-size: clamp(15px, 2.2vw, 18px);
+            font-weight: bold;
+            color: #800000;
+            margin-bottom: 6px;
+            font-family: Arial, sans-serif;
+        }
+
+        .card-desc {
+            font-size: clamp(12px, 1.6vw, 13.5px);
+            line-height: 1.4;
+            color: #000000;
+            margin-bottom: 16px;
+            flex-grow: 1;
+            word-wrap: break-word;
+        }
+
+        .retro-btn {
+            background-color: #C0C0C0;
+            border-top: 3px solid #FFFFFF;
+            border-left: 3px solid #FFFFFF;
+            border-right: 3px solid #404040;
+            border-bottom: 3px solid #404040;
+            box-shadow: 2px 2px 0px #000000;
+            padding: 8px 10px;
+            text-decoration: none;
+            color: #000000;
+            font-family: "Courier New", Courier, monospace;
+            font-size: clamp(11px, 1.5vw, 12px);
+            font-weight: bold;
+            text-align: center;
+            display: block;
+            cursor: pointer;
+            text-transform: uppercase;
+            word-break: break-word;
+        }
+
+        .retro-btn:active {
+            border-top: 3px solid #000000;
+            border-left: 3px solid #000000;
+            border-right: 3px solid #FFFFFF;
+            border-bottom: 3px solid #FFFFFF;
+            box-shadow: none;
+            transform: translate(2px, 2px);
+        }
+
+        footer {
+            margin-top: 24px;
+            background-color: #C0C0C0;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .counter-section {
+            margin-bottom: 16px;
+        }
+
+        .counter-box {
+            display: inline-flex;
+            background-color: #000000;
+            border-top: 3px solid #404040;
+            border-left: 3px solid #404040;
+            border-right: 3px solid #FFFFFF;
+            border-bottom: 3px solid #FFFFFF;
+            padding: 3px 6px;
+            margin-top: 6px;
+            box-shadow: inset 2px 2px 0px #000000;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .counter-digit {
+            background-color: #000000;
+            color: #00FF00;
+            font-family: "Courier New", Courier, monospace;
+            font-size: clamp(16px, 3vw, 20px);
+            font-weight: bold;
+            padding: 0 4px;
+            border-right: 1px solid #222222;
+            text-shadow: 0 0 4px #00FF00;
+        }
+
+        .counter-digit:last-child {
+            border-right: none;
+        }
+
+        .footer-links {
+            padding: 10px;
+            background-color: #A0A0A0;
+            border-top: 3px solid #000000;
+            border-left: 3px solid #000000;
+            border-right: 3px solid #FFFFFF;
+            border-bottom: 3px solid #FFFFFF;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .footer-link-btn {
+            background-color: #C0C0C0;
+            border-top: 3px solid #FFFFFF;
+            border-left: 3px solid #FFFFFF;
+            border-right: 3px solid #404040;
+            border-bottom: 3px solid #404040;
+            box-shadow: 3px 3px 0px #000000;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #000080;
+            font-family: "Courier New", Courier, monospace;
+            font-size: clamp(11px, 1.5vw, 12px);
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            display: block;
+            word-break: break-word;
+        }
+
+        .footer-link-btn:hover {
+            background-color: #D4D4D4;
+        }
+
+        .footer-link-btn:active {
+            border-top: 3px solid #000000;
+            border-left: 3px solid #000000;
+            border-right: 3px solid #FFFFFF;
+            border-bottom: 3px solid #FFFFFF;
+            box-shadow: none;
+            transform: translate(3px, 3px);
+        }
+
+        .copyright-text {
+            font-size: clamp(10px, 1.4vw, 11px);
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+
+<div id="wrapper">
+    <div class="header-box">
+        <span class="header-title">C:\nexthub\lobby</span>
+        <div class="win-buttons">
+            <span>_</span>
+            <span>&#9633;</span>
+            <span>X</span>
+        </div>
+    </div>
+
+    <marquee behavior="scroll" direction="left" scrollamount="4">
+        Benvenuto sulla lobby di Next! Qui puoi venire reindirizzato verso le sezioni del mio sito!
+    </marquee>
+
+    <h1><u>next\LOBBY</u></h1>
+    <hr class="divider">
+
+    <div class="grid-container">
+        
+        <div class="card">
+            <div class="card-header">nexthub\homepage</div>
+            <div class="card-title">Home</div>
+            <div class="card-desc">Scopri chi sono e leggi il mio portfolio.</div>
+            <a href="https://sites.google.com/view/nexthub/home-page" target="_blank" class="retro-btn">[ VAI AL SITO ]</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">nexthub\project</div>
+            <div class="card-title">Progetti</div>
+            <div class="card-desc">Dalle idee al codice. Dai un'occhiata alle mie creazioni.</div>
+            <a href="https://sites.google.com/view/nexthub/progetti" target="_blank" class="retro-btn">[ GUARDA I PROGETTI ]</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">nexthub\nextos\vr</div>
+            <div class="card-title">Versioni di nOS</div>
+            <div class="card-desc">Progettato per essere accessibile. Esplora le versioni del Next Operating System.</div>
+            <a href="https://sites.google.com/view/nexthub/nextos/versioni" target="_blank" class="retro-btn">[ ESPLORA VERSIONI ]</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">nexthub\nextos\nosforyou</div>
+            <div class="card-title">nOS for you</div>
+            <div class="card-desc">Perché la tecnologia deve abbattere barriere, non crearne.</div>
+            <a href="https://sites.google.com/view/nexthub/nextos/nos-for-you" target="_blank" class="retro-btn">[ SCOPRI NOS FOR YOU ]</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">nexthub\goals</div>
+            <div class="card-title">Obiettivi</div>
+            <div class="card-desc">Leggi cosa mi tiene in vita.</div>
+            <a href="https://sites.google.com/view/nexthub/obiettivi" target="_blank" class="retro-btn">[ LEGGI GLI OBIETTIVI ]</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">nexthub\update</div>
+            <div class="card-title">Next UpDate</div>
+            <div class="card-desc">Informazioni e aggiornamenti direttamente dal brand Next.</div>
+            <a href="https://sites.google.com/view/nexthub/next-update" target="_blank" class="retro-btn">[ LEGGI LE NOVITÀ ]</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <hr class="divider">
+        
+        <div class="counter-section">
+            <p><b>VISITATORE NUMERO:</b></p>
+            <div class="counter-box" id="hit-counter">
+                <span class="counter-digit">0</span>
+                <span class="counter-digit">0</span>
+                <span class="counter-digit">0</span>
+                <span class="counter-digit">0</span>
+                <span class="counter-digit">0</span>
+                <span class="counter-digit">0</span>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="https://sites.google.com/view/next-infoapp/home-page" target="_blank" class="footer-link-btn">&gt; LICENZE SOFTWARE &lt;</a>
+            <a href="https://github.com/Next-official" target="_blank" class="footer-link-btn">&gt; PROFILO GITHUB &lt;</a>
+        </div>
+
+        <p class="copyright-text">© 2026 Next by Tobia Roncoroni. Tutti i diritti riservati. </p>
+    </footer>
+</div>
+
+<script>
+    function updateCounter() {
+        let visits = localStorage.getItem('site_visits');
+        
+        if (!visits) {
+            visits = 1;
+        } else {
+            visits = parseInt(visits) + 1;
+        }
+        
+        localStorage.setItem('site_visits', visits);
+        
+        let formattedCounter = String(visits).padStart(6, '0');
+        let counterContainer = document.getElementById('hit-counter');
+        
+        counterContainer.innerHTML = '';
+        
+        for (let char of formattedCounter) {
+            let digitSpan = document.createElement('span');
+            digitSpan.className = 'counter-digit';
+            digitSpan.textContent = char;
+            counterContainer.appendChild(digitSpan);
+        }
+    }
+
+    updateCounter();
+</script>
+
+</body>
+</html>
