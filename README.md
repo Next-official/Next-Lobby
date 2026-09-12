@@ -19,5 +19,5 @@ La struttura della pagina è contenuta in un unico file standalone, privo di dip
 
 
 * **JavaScript (ES6)**:
-* **Contatore Visitatori Locale**: Funzione custom per il tracciamento delle visite tramite la Web Storage API (`localStorage`).
-* **DOM Manipulation**: Generazione dinamica dei singoli elementi cifra del contatore con formattazione a pad fisso (6 cifre).
+  **Contatore Visitatori Locale**: Funzione custom per il tracciamento delle visite tramite la Web Storage API (`localStorage`).
+  **DOM Manipulation**: Generazione dinamica dei singoli elementi cifra del contatore con formattazione a pad fisso (6 cifre).
