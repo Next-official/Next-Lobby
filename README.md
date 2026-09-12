@@ -13,8 +13,8 @@ La struttura della pagina è contenuta in un unico file standalone, privo di dip
 
 
 * **CSS3**:
-* **Layout Responsive**: Utilizzo di CSS Grid con `repeat(auto-fit, minmax(...))` combinato con `clamp()` per la gestione fluida dei font e dei margini su qualsiasi risoluzione schermo.
-* **Rilievo 3D Web 1.0**: Implementazione di bordi tridimensionali stile Bevel/Emboss ottenuti tramite la combinazione di `border-top/left` chiari e `border-right/bottom` scuri, integrati con l'effetto `transform: translate()` e inversione dei bordi sullo stato `:active` dei pulsanti.
+  **Layout Responsive**: Utilizzo di CSS Grid con `repeat(auto-fit, minmax(...))` combinato con `clamp()` per la gestione fluida dei font e dei margini su qualsiasi risoluzione schermo.
+  **Rilievo 3D Web 1.0**: Implementazione di bordi tridimensionali stile Bevel/Emboss ottenuti tramite la combinazione di `border-top/left` chiari e `border-right/bottom` scuri, integrati con l'effetto `transform: translate()` e inversione dei bordi sullo stato `:active` dei pulsanti.
 
 
 
